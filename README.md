@@ -25,3 +25,14 @@ the Readme.md
 >> when one accessed 127.0.0.1:7878/sleep and after that another accessed 
 >> 127.0.0.1:7878, the latter was not able to access the site until the 10 seconds 
 >> of the former was over
+
+## Commit 5 reflection
+>> in this part, we made the server multithreaded (up to 4 threads). we have Job,
+>> which is a function that gets passed around. when the thread pool does execute,
+>> it sends the function inside it as a Job. the job is then sent into a queue via
+>> sender.send(job). then the threads pick up the job. The receiver is where the 
+>> threads pick them up from. Ownership is shared between them because of Arc. 
+>> the first one to get it locks it with mutex so others can't. it takes the job
+>> when recv() happens. When done like this, it runs multithreaded, so even when
+>> there are two windows running at the same time, with one doing the sleep page,
+>> the other can still run
